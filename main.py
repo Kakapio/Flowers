@@ -32,12 +32,13 @@ scoring = 'accuracy'
 
 # Spot Check Algorithms
 models = []
-models.append(('LR', LogisticRegression()))
+models.append(('LR', LogisticRegression(solver='lbfgs', multi_class='auto', max_iter=1000))) #I added the code explicitly setting solver and multiclass to avoid warnings. TODO: REMOVE MAX_ITER IDK WHAT THAT DOES
 models.append(('LDA', LinearDiscriminantAnalysis()))
 models.append(('KNN', KNeighborsClassifier()))
 models.append(('CART', DecisionTreeClassifier()))
 models.append(('NB', GaussianNB()))
-models.append(('SVM', SVC()))
+models.append(('SVM', SVC(gamma='scale')))
+
 # evaluate each model in turn
 results = []
 names = []
@@ -47,7 +48,7 @@ for name, model in models:
 	results.append(cv_results)
 	names.append(name)
 	msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
-	print(msg)
+	print(msg) #prints result (accuracy) and standard deviation
 
 # Compare Algorithms
 fig = plt.figure()
